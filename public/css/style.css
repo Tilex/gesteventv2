@@ -1,0 +1,3 @@
+.conteneur {
+    overflow:hidden; /* Empêche le dépassement des flottants. */
+}

@@ -1,0 +1,67 @@
+<div class="col-md-12">
+    <?php $elements->getTabsAdmin(); ?>
+    <div class="row col-md-12">
+        <nav>
+            <ul class="pager">
+                <li class="previous"><?php echo $this->tag->linkTo(["session/admin", "Accueil "]); ?></li>
+                <li class="next"><a href="#" class="btn-link"onclick="Modal.creationActeur()" id="openBtn">Créer un nouvel acteur</a>
+                    <div id="j" class="modal fade" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h3>Créer un nouvel acteur</h3>
+                                </div>
+                                <div class="modal-body" id="modalBody">
+                                    <!-- Contenu du controller -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <br><br>
+    <br>
+    <div class="page-header">
+        <h1>Liste de tout les acteurs</h1>
+    </div>
+    <?php echo $this->getContent(); ?>
+
+    <?php foreach ($page->items as $acteur): ?>
+        <div class="col-md-6">
+            <ul class = list-group>
+                <li class="list-group-item list-group-item-warning">Trigramme : <?php echo $acteur->trigramme ?>
+                    <?php echo $this->tag->linkTo(["acteur/delete/" . $acteur->id, "class"=>"glyphicon glyphicon-trash pull-right ", "onclick"=>"return confirm('Etes vous sûr de bien vouloir supprimer cet acteur?')"]);?>
+                    <spawn class="pull-right">&nbsp;&nbsp;&nbsp;</spawn>
+                    <a href="#<?php echo $acteur->id ?>" class="btn-link glyphicon glyphicon-pencil pull-right" onclick="Modal.modificationActeur(<?php echo $acteur->id?>)" id="openBtn"></a>
+                    <div id="i<?php echo $acteur->id ?>" class="modal fade" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h3 style="color: black;">Modification de l'acteur : <?php echo $acteur->nom." ".$acteur->prenom?></h3>
+                                </div>
+                                <div class="modal-body" id="modalBody<?php echo $acteur->id ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item list-group-item-info">Nom : <?php echo $acteur->nom ?></li>
+                <li class="list-group-item list-group-item-info">Prenom : <?php echo $acteur->prenom ?></li>
+                <li class="list-group-item list-group-item-info">Login : <?php echo $acteur->login?></li>
+                <li class="list-group-item list-group-item-danger"  onclick="Projet.affiche(<?php echo $acteur->id?>);">Liste de tout les projets de l'acteur</li>
+                <li class="list-group-item" id="p<?php echo $acteur->id?>" style="display: none"></li>
+                <li class="list-group-item list-group-item-danger"  onclick="TacheParActeur.affiche(<?php echo $acteur->id?>);">Liste de toutes les taches de l'acteur</li>
+                <li class="list-group-item" id="t<?php echo $acteur->id?>" style="display: none"></li>
+            </ul>
+        </div>
+    <?php endforeach; ?>
+    <script type="text/javascript" src="/gestEventv2/js/afficheModal.js"></script>
+    <script type="text/javascript" src="/gestEventv2/js/tacheParActeur.js"></script>
+    <script type="text/javascript" src="/gestEventv2/js/acteur.js"></script>
+</div>
+
+

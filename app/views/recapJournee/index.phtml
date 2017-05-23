@@ -1,0 +1,80 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+<div class="col-md-12">
+    <?php $elements->getTabsAdmin(); ?>
+
+<div class="page-header">
+    <h1>Récapitulatif de la journée</h1>
+</div>
+
+<?php echo $this->getContent(); ?>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+
+    <button type="button" class="btn btn-success" id="prevue" onclick="$('#prevue').addClass('hidden')&&$('#reset').removeClass('hidden')&&$('#nonprevue').addClass('hidden')">Taches prévues</button>
+    <button id="nonprevue" type="button" class="btn btn-danger" onclick="$('#nonprevue').addClass('hidden')&&$('#reset').removeClass('hidden')&&$('#prevue').addClass('hidden')">Taches non-prévues</button>
+    <button id="reset" type="button" class="btn btn-primary hidden" onclick="$('#prevue').removeClass('hidden')&&$('#nonprevue').removeClass('hidden')&&$('#reset').addClass('hidden')">Reset</button><br><br>
+
+    <table id="example" cellspacing="0" width="100%">
+    <thead style="background-color: aliceblue" >
+    <tr>
+        <th class="text-center">Libellé</th>
+        <th class="text-center">Projet</th>
+        <th class="text-center">Acteur</th>
+        <th class="text-center">Catégorie</th>
+        <th class="text-center">Etat</th>
+        <th class="text-center">Durée</th>
+        <th class="text-center">Date début</th>
+        <th class="text-center">Date fin</th>
+        <th class="text-center">Description</th>
+        <th class="text-center">Commentaire</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php $res = $this->view->getVar('date') ?>
+    <?php foreach ($page->items as $infos): ?>
+        <tr id="<?php echo $infos->tache->prevue?>">
+            <td><?php echo $infos->tache->libelle ?></td>
+            <td><a href="#<?php echo $infos->projet->id ?>" class="btn-link" onclick="Modal.afficheProjet(<?php echo $infos->projet->id?>)" id="openBtn"><?php echo $infos->projet->libelle ?></a>
+                <div id="k<?php echo $infos->projet->id ?>" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h3>Projet : <?php echo $infos->projet->libelle?></h3>
+                            </div>
+                            <div class="modal-body" id="modalBody<?php echo $infos->projet->id ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td><?php echo $infos->acteur->trigramme?></td>
+            <td><?php echo $infos->categorie->libelle ?></td>
+            <td><?php echo $infos->tache->etat ?></td>
+            <td><?php echo $infos->tache->duree ?></td>
+            <td><li class="hidden"><?php echo $infos->tache->dateDebut?></li><?php echo $res[$infos->tache->id]['dateDebut'] ?></td>
+            <td><li class="hidden"><?php echo $infos->tache->dateFin?></li><?php echo $res[$infos->tache->id]['dateFin'] ?></td>
+            <td><?php echo $infos->tache->description ?></td>
+            <td><?php echo $infos->tache->commentaire ?></td>
+            <!-- FIN TD -->
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+    <script type="text/javascript">
+        // For demo to fit into DataTables site builder...
+        $('#example')
+            .removeClass( 'display' )
+            .addClass('table table-striped table-bordered');
+    </script>
+</table>
+</div>
+<script type="text/javascript" src="/gestEventv2/js/afficheModal.js"></script>
+<script type="text/javascript" src="/gestEventv2/js/afficheTermine.js"></script>

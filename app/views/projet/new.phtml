@@ -1,0 +1,100 @@
+
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+<div class="col-md-12">
+    <div class="row col-md-12">
+        <?php $elements->getTabsAdmin(); ?>
+        <nav>
+            <ul class="pager">
+                <li class="previous"><?php echo $this->tag->linkTo(["projet/indexAdmin", "Retour"]) ?></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="page-header">
+        <h1>
+            Création d'un nouveau projet
+        </h1>
+    </div>
+
+    <?php echo $this->getContent(); ?>
+
+    <?php
+        echo $this->tag->form(
+            [
+                "projet/create",
+                "autocomplete" => "off",
+                "class" => "form-horizontal"
+            ]
+        );
+    ?>
+
+    <div class="form-group">
+        <label for="fieldLibelle" class="col-sm-2 control-label">Libelle</label>
+        <div class="col-sm-10">
+            <?php echo $this->tag->textField(["libelle", "size" => 30, "class" => "form-control", "id" => "fieldLibelle"]) ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="field" class="col-sm-2 control-label">Chef de projet</label>
+        <div class="col-sm-10">
+            <select class="form-control" id="projetId" name="chefProjet">
+                <?php foreach ($acteur as $a):?>
+                        <option value=<?php echo $a->id?>><?php echo $a->nom ." ". $a->prenom?></option>
+                    <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+
+   <!--<div class="form-group hidden">
+        <label for="fieldEtat" class="col-sm-2 control-label ">Etat</label>
+        <div class="col-sm-10 ">
+            <?php
+            echo $this->tag->selectStatic(
+                [
+                    "class" => "form-control",
+                    "etat",
+                    [
+                        "Non débuté"    => "Non débuté",
+                        "En cours" => "En cours",
+                        "Terminé"   => "Terminé",
+                    ]
+                ]
+            );?>
+        </div>
+    </div>-->
+
+    <div class="form-group ">
+        <label for="fieldDatedebut" class="col-sm-2 control-label">DateDebut</label>
+        <div class="col-sm-10">
+            <?php echo $this->tag->dateField(["dateDebut", "type" => "date", "class" => "form-control", "id" => "fieldDatedebut"]) ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="fieldDatefinprevue" class="col-sm-2 control-label">DateFinPrevue</label>
+        <div class="col-sm-10">
+            <?php echo $this->tag->dateField(["dateFinPrevue", "type" => "date", "class" => "form-control", "id" => "fieldDatefinprevue"]) ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="fieldDatefin" class="col-sm-2 control-label">DateFin</label>
+        <div class="col-sm-10">
+            <?php echo $this->tag->dateField(["dateFin", "type" => "date", "class" => "form-control", "id" => "fieldDatefin"]) ?>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <?php echo $this->tag->submitButton(["Sauvegarder", "class" => "btn btn-default"]) ?>
+        </div>
+    </div>
+
+    <?php echo $this->tag->endForm(); ?>
+</div>

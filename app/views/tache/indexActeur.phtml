@@ -1,0 +1,43 @@
+<div class="col-md-12">
+    <?php $elements->getTabsActeur(); ?>
+    <?php echo $this->getContent(); ?>
+
+    <div class="page-header">
+        <h1>Mes tâches</h1>
+    </div>
+    <?php foreach ($page->items as $tache): ?>
+        <div class="col-md-3">
+            <ul class = list-group>
+                <li class="list-group-item list-group-item-warning text-center">Nom de la tâche : <?php echo $tache->tache->libelle ?></li>
+                <li class="list-group-item list-group-item-warning text-center">Projet associé : <?php echo $this->tag->linkTo(["projet/leProjetActeur/".$tache->projet->id."", $tache->projet->libelle]) ?></li>
+                <li class="list-group-item list-group-item-warning text-center">Categorie de la tâche : <?php echo $tache->categorie->libelle ?></li>
+                <li class="list-group-item list-group-item-info">Etat : <?php echo $tache->tache->etat ?></li>
+                <li class="list-group-item list-group-item-info">Date début : <?php echo $tache->tache->dateDebut ?></li>
+                <li class="list-group-item list-group-item-info">Date Fin : <?php echo $tache->tache->dateFin ?></li>
+                <li class="list-group-item list-group-item-info">Durée : <?php echo $tache->tache->duree ?></li>
+                <li class="list-group-item list-group-item-info">Description : <?php echo $tache->tache->description ?></li>
+                <li class="list-group-item list-group-item-info">Commentaire : <?php echo $tache->tache->commentaire ?></li>
+                <li class="list-group-item list-group-item-danger text-center"><?php echo $this->tag->linkTo(["tache/editActeur/".$tache->tache->id."", "Modification"]) ?></li>
+                <li class="list-group-item list-group-item-danger text-center"><?php echo $this->tag->linkTo(["tache/deleteActeur/".$tache->tache->id."", "Suppression","onclick"=>"return confirm('Etes vous sûr de bien vouloir supprimer cette tâche?')"]) ?></li>
+            </ul>
+        </div>
+    <?php endforeach; ?>
+</div>
+<div class="row col-md-12">
+    <div class="col-sm-1">
+        <p class="pagination" style="line-height: 1.42857;padding: 6px 12px;">
+            <?php echo $page->current, "/", $page->total_pages ?>
+        </p>
+    </div>
+    <div class="col-sm-11">
+        <nav>
+            <ul class="pagination">
+                <li><?php echo $this->tag->linkTo("tache/indexActeur", "Première page") ?></li>
+                <li><?php echo $this->tag->linkTo("tache/indexActeur?page=" . $page->before, "Précedente") ?></li>
+                <li><?php echo $this->tag->linkTo("tache/indexActeur?page=" . $page->next, "Suivante") ?></li>
+                <li><?php echo $this->tag->linkTo("tache/indexActeur?page=" . $page->last, "Dernière page") ?></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+

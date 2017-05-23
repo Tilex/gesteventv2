@@ -1,0 +1,23 @@
+<div class="col-md-12">
+    <?php $elements->getTabsActeur(); ?>
+    <?php echo $this->getContent();
+    ?>
+    <nav>
+        <ul class="pager">
+            <li class="previous"><?php echo $this->tag->linkTo(["projet/indexActeur", "Retour"]) ?></li>
+        </ul>
+    </nav>
+    <?php foreach ($page->items as $projet): ?>
+        <div class="col-md-3">
+            <ul class = list-group> <br><br>
+                <li class="list-group-item list-group-item-warning">Nom du projet : <?php echo $projet->projet->libelle ?></li>
+                <li class="list-group-item list-group-item-info">Chef du projet : <?php echo $projet->acteur->nom." ".$projet->acteur->prenom ?></li>
+                <li class="list-group-item list-group-item-info">Etat du projet: <?php echo $projet->projet->etat ?></li>
+                <li class="list-group-item list-group-item-info">Avancée du projet : <?php echo $projet->projet->avancee*100 ?>%</li>
+                <li class="list-group-item list-group-item-info">Début du projet : <?php echo $projet->projet->dateDebut ?></li>
+                <li class="list-group-item list-group-item-info">Fin prévue du projet : <?php echo $projet->projet->dateFinPrevue ?></li>
+                <li class="list-group-item list-group-item-info">Fin réelle du projet : <?php echo $projet->projet->dateFin ?></li>
+            </ul>
+        </div>
+    <?php endforeach; ?>
+</div>

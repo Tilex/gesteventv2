@@ -1,0 +1,15 @@
+<div class="col-md-12">
+    <?php $elements->getTabsAdmin(); ?>
+    <?php echo $this->getContent();
+    ?>
+
+    <?php foreach ($page->items as $acteur): ?>
+        <div class="col-md-3">
+            <ul class = list-group> <br><br>
+                <li class="list-group-item list-group-item-warning text-center">Descriptif de l'acteur </li>
+                <li class="list-group-item list-group-item-info">Nom de l'acteur : <?php echo $acteur->nom ?></li>
+                <li class="list-group-item list-group-item-info">Prénom de l'acteur : <?php echo $acteur->prenom ?></li>
+                <li class="list-group-item list-group-item-info">Login : <?php echo $acteur->login ?></li>
+            </ul>
+        </div>
+    <?php endforeach; ?>

@@ -1,0 +1,142 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+
+?>
+<?php use Phalcon\Tag; ?>
+
+<div class="col-md-12">
+    <?php $elements->getTabsAdmin(); ?>
+    <div class="row col-md-12">
+        <nav>
+            <ul class="pager">
+                <li class="previous"><?php echo $this->tag->linkTo(["session/admin", "Accueil "]); ?></li>
+                <li class="next"><a href="#" class="btn-link"onclick="Modal.creationProjet()" id="openBtn">Créer un nouveau projet</a>
+                    <div id="j" class="modal fade" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h3>Créer un nouveau projet</h3>
+                                </div>
+                                <div class="modal-body" id="modalBody">
+                                    <!-- Contenu du controller -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <br><br>
+                <li class="next"><a href="snake" class="btn-link">Snake</a>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="page-header">
+        <h1>Liste des projets</h1>
+    </div>
+
+    <?php echo $this->getContent(); ?>
+
+       <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+<br>
+    <?php echo $this->tag->endForm(); ?>
+
+    <!--<table cellpadding="3" cellspacing="0" border="0" style="width: 67%; margin: 0 auto 2em auto;">
+        <thead>
+        <tr>
+            <th>Etat</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="filter_global">
+            <td >En cours<input type="checkbox" class="global_filter" id="global_filter"></td>
+            <td >Terminé<input type="checkbox" class="global_filter" id="global_regex"></td>
+            <td >Non-débuté<input type="checkbox" class="global_filter" id="global_smart"></td>
+        </tr>
+    </tbody>
+    </table> -->
+    <button type="button" class="btn btn-primary" id="hide" onclick="$('#reset').removeClass('hidden') && $('#hide').addClass('hidden')">Masquer les projets terminés</button>
+    <button id="reset" type="button" class="btn btn-success hidden" onclick="$('#hide').removeClass('hidden') && $('#reset').addClass('hidden')">Afficher les projets terminés</button><br><br>
+    <table id="example" cellspacing="0" width="100%">
+        <thead style="background-color: aliceblue" >
+            <tr>
+                <th class="text-center">Libelle</th>
+                <th class="text-center">Chef de projet</th>
+                <th class="text-center">Etat</th>
+                <th class="text-center" style="width: 110px">Date Début</th>
+                <th class="text-center" style="width: 110px">Date Fin Prévue</th>
+                <th class="text-center" style="width: 110px">Date Fin</th>
+                <th class="text-center">Avancée du projet</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php $res = $this->view->getVar('date') ?>
+        <?php foreach ($page->items as $projet): ?>
+            <tr id="<?php echo $projet->projet->etat ?>">
+                <td><?php echo $projet->projet->libelle ?></td>
+                <td><?php echo $projet->acteur->nom. " " .$projet->acteur->prenom ?></td>
+                <td><?php echo $projet->projet->etat ?></td>
+                <td><li class="hidden"><?php echo $projet->projet->dateDebut?></li><?php echo $res[$projet->projet->id]['dateDebut'] ?></td>
+                <td><li class="hidden"><?php echo $projet->projet->dateFinPrevue?></li><?php echo $res[$projet->projet->id]['dateFinPrevue'] ?></td>
+                <td><li class="hidden"><?php echo $projet->projet->dateFin?></li><?php echo $res[$projet->projet->id]['dateFin'] ?></td>
+                <td>
+                    <div class="container text-center" style="width: 150px">
+                        <div class="progress center-block" style="width: 100px">
+                            <div id="couleurBarre<?php echo $projet->projet->id?>" style="width:<?php echo $projet->projet->avancee*100?>px"></div>
+                            <script>
+                                if(<?php echo $projet->projet->avancee?><0.5 && <?php echo $projet->projet->avancee?>>0){
+                                    $('#couleurBarre<?php echo $projet->projet->id?>').addClass('progress-bar progress-bar-danger')
+                                };
+                                if(<?php echo $projet->projet->avancee?>>=0.5 && <?php echo $projet->projet->avancee?><1){
+                                    $('#couleurBarre<?php echo $projet->projet->id?>').addClass('progress-bar progress-bar-warning')
+                                };
+                                if(<?php echo $projet->projet->avancee?>==1){
+                                    $('#couleurBarre<?php echo $projet->projet->id?>').addClass('progress-bar progress-bar-success');
+                                };
+                            </script>
+                        </div>
+                        <?php echo $projet->projet->avancee*100?>%
+                    </div>
+                </td>
+
+                <td style="width: 20px"><a href="#<?php echo $projet->projet->id ?>" class="btn-link glyphicon glyphicon-pencil" onclick="Modal.modification(<?php echo $projet->projet->id?>)" id="openBtn"></a>
+                    <div id="<?php echo $projet->projet->id ?>" class="modal fade" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h3>Modification du projet <?php echo $projet->projet->libelle?></h3>
+                                </div>
+                                <div class="modal-body" id="modalBody<?php echo $projet->projet->id ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <?php echo $this->tag->linkTo(["projet/delete/" . $projet->projet->id, "class"=>"glyphicon glyphicon-trash", "onclick"=>"return confirm('Etes vous sur de bien vouloir supprimer ce projet?')"]); ?>
+                </td>
+                <!-- FIN TD -->
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+        <script type="text/javascript">
+            // For demo to fit into DataTables site builder...
+            $('#example')
+                .removeClass( 'display' )
+                .addClass('table table-striped table-bordered');
+        </script>
+    </table>
+
+</div>
+
+<script type="text/javascript" src="/gestEventv2/js/afficheModal.js"></script>
+<script type="text/javascript" src="/gestEventv2/js/afficheTermine.js"></script>
+
+

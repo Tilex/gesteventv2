@@ -1,0 +1,96 @@
+<div class="col-md-12">
+    <?php $elements->getTabsAdmin(); ?>
+    <?php echo $this->getContent();
+    ?>
+
+    <div class="page-header">
+        <h2>Création d'une nouvelle tâche</h2>
+    </div>
+
+    <?php
+    echo $this->tag->form(
+        [
+            "ajoutTache/create",
+            "autocomplete" => "off",
+        ]
+    );
+    ?>
+
+    <div class = "col-md-6 pull-left">
+        <label for="libelle">Libelle de la tâche</label>
+        <?php echo $this->tag->textField(["libelle", "size" => 30, "class" => "form-control","placeholder" =>"Exemple : Conception de la base de données", "id" => "libelle"]) ?>
+    <br>
+        <select class="form-control" id="projetId" name="listeProjet">
+            <option value="@">Choisir le projet concerné</option>
+            <?php foreach ($page->items as $projet): ?>
+                <option value=<?php echo $projet->id?>><?php echo $projet->libelle?></option>
+            <?php endforeach; ?>
+        </select>
+    <br>
+        <select class="form-control" id="categorieId" name="listeCategorie">
+            <option value="@">Choisir la catégorie concernée</option>
+            <?php foreach ($page3->items as $categorie): ?>
+                <option value=<?php echo $categorie->id?>><?php echo $categorie->libelle?></option>
+            <?php endforeach; ?>
+        </select>
+    <br>
+        <!--<div class="col-md-6 pull-left"> -->
+            <select class="form-control" id="acteurId" name="listeActeur">
+                <option value="@">Choisir l'acteur concerné</option>
+                <?php foreach ($page2->items as $acteur): ?>
+                    <option value=<?php echo $acteur->id?>><?php echo $acteur->nom." ".$acteur->prenom?></option>
+                <?php endforeach; ?>
+            </select>
+        <!--</div>-->
+        <!--<div class="col-md-6 pull-right">
+            <select multiple class="form-control" id="acteurId" name="listeActeur">
+                <option value="@">Choisir l'acteur concerné</option>
+                <?php foreach ($page2->items as $acteur): ?>
+                    <option value=<?php echo $acteur->id?>><?php echo $acteur->nom." ".$acteur->prenom?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>-->
+
+    <br>
+
+            <label>Type de la tâche :</label>
+        <div class="radio">&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="radio" name="prevue" value="1">Prévue</label>
+        </div>
+        <div class="radio">&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="radio" name="prevue" value="0">Non-prévue</label>
+        </div>
+
+
+
+    <br>
+        <label >Etat</label>
+                <select class="form-control" id="Etat" name="listeEtat">
+                    <option value="Non débutée">Non débutée</option>
+                    <option value="En cours">En cours</option>
+                    <option value="Terminée">Terminée</option>
+                </select>
+
+    </div>
+
+    <div class = "col-md-6 pull-right">
+        <label for="dateDebut">Date début de la tâche</label>
+        <input type="date" class="form-control" id="datePrevue" name="dateDebut">
+
+        <label for="dureePrevue"><br>Durée prévue pour cette tâche (heures)</label>
+        <input type="text" class="form-control" id="dureePrevue" name="dureePrevue" placeholder="0">
+        <br>
+        <label for="description">Description de la tâche</label>
+        <textarea class="form-control" rows="4" name="description" id="description"></textarea>
+        <br>
+        <label for="commentaire">Commentaire</label>
+        <textarea class="form-control" rows="4" id="commentaire" name="commentaire"></textarea>
+    </div>
+
+    <div class = "col-md-6 pull-left"><br>
+        <?php echo $this->tag->submitButton(["Valider", "class" => "btn btn-success"]) ?>
+        <li class="btn btn-danger"><?php echo $this->tag->linkTo(["session/admin", "Annuler", "style"=>"color: white"]); ?></li>
+    </div>
+</div>
+
+

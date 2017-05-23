@@ -1,0 +1,112 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+
+?>
+<?php use Phalcon\Tag; ?>
+
+<div class="col-md-12">
+    <?php $elements->getTabsAdmin(); ?>
+
+    <div class="row col-md-12">
+        <nav>
+            <ul class="pager">
+                <li class="previous"><?php echo $this->tag->linkTo(["session/admin", "Accueil "]); ?></li>
+                <li class="next"><?php echo $this->tag->linkTo(["ajoutTache/indexAdmin", "Créer une nouvelle tâche"]); ?></li><br><br>
+                <li class="next"><a href="#" class="btn-link" onclick="Modal.modificationCategorie()" id="openBtn">Créer une nouvelle catégorie</a>
+                    <div id="i" class="modal fade" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h3>Creation d'une nouvelle catégorie</h3>
+                                </div>
+                                <div class="modal-body" id="modalBody">
+                                    <!-- Body du modal qui revient directement du controller-->
+                                </div>
+                            </div>
+                        </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="page-header">
+        <h1>Liste des tâches</h1>
+    </div>
+
+    <?php echo $this->getContent(); ?>
+
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+    <br>
+    <?php echo $this->tag->endForm(); ?>
+
+
+
+    <table id="example" cellspacing="0" width="100%">
+        <thead style="background-color: aliceblue" >
+        <tr>
+            <th class="text-center">Libelle</th>
+            <th class="text-center">Projet</th>
+            <th class="text-center">Catégorie</th>
+            <th class="text-center">Acteur</th>
+            <th class="text-center">Etat</th>
+            <th class="text-center">Durée</th>
+            <th class="text-center" style="width: 80px">Date début</th>
+            <th class="text-center" style="width: 80px">Date fin</th>
+            <th class="text-center">Description</th>
+            <th class="text-center">Commentaire</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php $res = $this->view->getVar('date') ?>
+        <?php foreach ($page->items as $tache): ?>
+            <tr>
+                <td><?php echo $tache->tache->libelle ?></td>
+                <td><?php echo $tache->projet->libelle ?></td>
+                <td><?php echo $tache->categorie->libelle ?></td>
+                <td><?php echo $tache->acteur->trigramme?></td>
+                <td><?php echo $tache->tache->etat ?></td>
+                <td><?php echo $tache->tache->duree ?></td>
+                <td><li class="hidden"><?php echo $tache->tache->dateDebut?></li><?php echo $res[$tache->tache->id]['dateDebut'] ?></td>
+                <td><li class="hidden"><?php echo $tache->tache->dateFin?></li><?php echo $res[$tache->tache->id]['dateFin'] ?></td>
+                <td><?php echo $tache->tache->description ?></td>
+                <td><?php echo $tache->tache->commentaire ?></td>
+                <td>
+                    <a href="#<?php echo $tache->tache->id ?>" class="btn-link glyphicon glyphicon-pencil" onclick="Modal.modificationTache(<?php echo $tache->tache->id?>)" id="openBtn"></a>
+                    <?php echo $this->tag->linkTo(["tache/deleteAdmin/" . $tache->tache->id, "class"=>"glyphicon glyphicon-trash", "onclick"=>"return confirm('Etes vous sûr de bien vouloir supprimer cette tâche?')"]); ?>
+                    <div id="<?php echo $tache->tache->id ?>" class="modal fade" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h3>Modification de la tâche <?php echo $tache->tache->libelle?></h3>
+                                </div>
+                                <div class="modal-body" id="modalBody<?php echo $tache->tache->id ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+        <script type="text/javascript">
+            // For demo to fit into DataTables site builder...
+            $('#example')
+                .removeClass( 'display' )
+                .addClass('table table-striped table-bordered');
+        </script>
+    </table>
+
+
+</div>
+
+<script type="text/javascript" src="/gestEventv2/js/afficheModal.js"></script>
+
